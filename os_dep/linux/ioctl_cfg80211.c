@@ -3675,13 +3675,35 @@ int value;
 #else
 	value = dbm;
 #endif
-
+	RTW_INFO("OpenHD:cfg80211_rtw_set_txpower with %d mBm %d (?dBm?)",(int)mbm,(int)value);
 if(value < 0)
 	value = 0;
 if(value > 40)
 	value = 40;
 
 if(type == NL80211_TX_POWER_FIXED) {
+	RTW_INFO("OpenHD:cfg80211_rtw_set_txpower NL80211_TX_POWER_FIXED");
+	// OpenHD dynamic tx power: We hack the driver here by repurposing really small dBm values
+	// as power index. This is a bit dangerous - since 63mBm now suddenly becomes max power.
+	// But since 25mW is already ~14dBm (and therefore 140 mBm if you go with the 100 factor)
+	// i think it is safe to assume that only OpenHD (which knows about the driver) ever calls
+	// the "set tx power fixed" with those ultra low values. The nice thing then is that we don't even
+	// need any kernel patches to set the card to an arbitratry high power value, since they are well below the legal limit of
+	// every country. Note, however, that the card is now not doing what linux tells it - but honestly, someone decided
+	// to just map dBm values to some power index at some point anyways.
+    // 22.April: Simplify -> use tpi override value (and dummy tx power commits)
+    /*int openhd_override_tx_power_index=get_openhd_override_tx_power_index();
+    if(openhd_override_tx_power_index>=0 && openhd_override_tx_power_index<=63){
+        padapter->registrypriv.RegTxPowerIndexOverride = openhd_override_tx_power_index;
+    }else{
+        padapter->registrypriv.RegTxPowerIndexOverride = 0;
+    }*/
+    if(mbm>=0 && mbm<=63){
+	  padapter->registrypriv.RegTxPowerIndexOverride = mbm;
+	  RTW_WARN("OpenHD:interpreting %d mBm as tx power index override",(int)mbm);
+	}
+	RTW_INFO("OpenHD:Tx power index override is %d",padapter->registrypriv.RegTxPowerIndexOverride);
+
 	pHalData->CurrentTxPwrIdx = value;
 	rtw_hal_set_tx_power_level(padapter, pHalData->current_channel);
 } else
@@ -3713,7 +3735,12 @@ if(type == NL80211_TX_POWER_FIXED) {
 		return -EOPNOTSUPP;
 	}
 #endif
-	RTW_INFO("%s\n", __func__);
+	if(padapter->registrypriv.RegTxPowerIndexOverride){
+	  	*dbm = padapter->registrypriv.RegTxPowerIndexOverride;
+	}else{
+	  	// *dbm = (12);
+		*dbm = pHalData->CurrentTxPwrIdx;
+	}
 	return 0;
 }
 
@@ -5047,12 +5074,15 @@ static int	cfg80211_rtw_set_channel(struct wiphy *wiphy
 
 	RTW_INFO(FUNC_ADPT_FMT" ch:%d bw:%d, offset:%d\n"
 		, FUNC_ADPT_ARG(padapter), chan_target, chan_width, chan_offset);
-
+	if(true){
+	  RTW_WARN(FUNC_ADPT_FMT" ch:%d bw:%d, offset:%d OpenHD channel debug\n"
+		, FUNC_ADPT_ARG(padapter), chan_target, chan_width, chan_offset);
+	}
 	rtw_set_chbw_cmd(padapter, chan_target, chan_width, chan_offset, RTW_CMDF_WAIT_ACK);
 
 	return 0;
 }
-
+// Consti10: In monitor mode, this method is used the set the channel freq, at least on ubuntu 5.19.X
 static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
 #if (CFG80211_API_LEVEL >= KERNEL_VERSION(3, 8, 0))
 	, struct cfg80211_chan_def *chandef
@@ -5146,7 +5176,27 @@ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
 #endif
 	RTW_INFO(FUNC_ADPT_FMT" ch:%d bw:%d, offset:%d\n"
 		, FUNC_ADPT_ARG(padapter), target_channal, target_width, target_offset);
+    // OpenHD channel via module param
+    // update if module param has been updated
+    padapter->registrypriv.openhd_override_channel=get_openhd_override_channel();
+    padapter->registrypriv.openhd_override_channel_width=get_openhd_override_channel_width();
 
+    RTW_WARN("OpenHD: override %d %d",padapter->registrypriv.openhd_override_channel,padapter->registrypriv.openhd_override_channel_width);
+    {
+        if(padapter->registrypriv.openhd_override_channel){
+            target_channal=padapter->registrypriv.openhd_override_channel;
+            RTW_WARN("OpenHD: using openhd_override_channel");
+        }
+        if(padapter->registrypriv.openhd_override_channel_width){
+            target_width=padapter->registrypriv.openhd_override_channel_width;
+            RTW_WARN("OpenHD: using openhd_override_channel_width");
+        }
+    }
+
+	if(true){
+	  RTW_WARN(FUNC_ADPT_FMT" ch:%d bw:%d, offset:%d OpenHD channel debug\n"
+		, FUNC_ADPT_ARG(padapter), target_channal, target_width, target_offset);
+	}
 	rtw_set_chbw_cmd(padapter, target_channal, target_width, target_offset, RTW_CMDF_WAIT_ACK);
 
 	return 0;

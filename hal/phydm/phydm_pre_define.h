@@ -594,8 +594,8 @@ enum odm_board_type_e {
 	ODM_BOARD_EXT_PA    = BIT(3), /* 0 = no 2G ext-PA, 1 = existing 2G ext-PA */
 	ODM_BOARD_EXT_LNA   = BIT(4), /* 0 = no 2G ext-LNA, 1 = existing 2G ext-LNA */
 	ODM_BOARD_EXT_TRSW  = BIT(5), /* 0 = no ext-TRSW, 1 = existing ext-TRSW */
-	ODM_BOARD_EXT_PA_5G	= BIT(6), /* 0 = no 5G ext-PA, 1 = existing 5G ext-PA */
-	ODM_BOARD_EXT_LNA_5G = BIT(7), /* 0 = no 5G ext-LNA, 1 = existing 5G ext-LNA */
+	ODM_BOARD_EXT_PA_5G	= 1, /* 0 = no 5G ext-PA, 1 = existing 5G ext-PA */
+	ODM_BOARD_EXT_LNA_5G = 1, /* 0 = no 5G ext-LNA, 1 = existing 5G ext-LNA */
 };
 
 enum odm_package_type_e {

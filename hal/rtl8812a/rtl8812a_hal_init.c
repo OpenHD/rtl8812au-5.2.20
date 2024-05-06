@@ -1175,8 +1175,8 @@ hal_ReadPAType_8812A(
 			pHalData->ExternalLNA_2G = (GetRegAmplifierType2G(Adapter) & ODM_BOARD_EXT_LNA) ? 1 : 0;
 		}
 		if (GetRegAmplifierType5G(Adapter) == 0) { /* AUTO */
-			pHalData->external_pa_5g  = 0;
-			pHalData->external_lna_5g = 0;
+			pHalData->external_pa_5g  = 1;
+			pHalData->external_lna_5g = 1;
 		} else {
 			pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
 			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;

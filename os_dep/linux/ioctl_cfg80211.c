@@ -5169,8 +5169,6 @@ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
 		break;
 	}
 #endif
-	RTW_INFO(FUNC_ADPT_FMT" ch:%d bw:%d, offset:%d\n"
-		, FUNC_ADPT_ARG(padapter), target_channal, target_width, target_offset);
     // OpenHD channel via module param
     // update if module param has been updated
     padapter->registrypriv.openhd_override_channel=get_openhd_override_channel();
@@ -5188,9 +5186,6 @@ static int cfg80211_rtw_set_monitor_channel(struct wiphy *wiphy
         }
     }
 
-	if(true){
-		FUNC_ADPT_ARG(padapter), target_channal, target_width, target_offset);
-	}
 	rtw_set_chbw_cmd(padapter, target_channal, target_width, target_offset, RTW_CMDF_WAIT_ACK);
 
 	return 0;

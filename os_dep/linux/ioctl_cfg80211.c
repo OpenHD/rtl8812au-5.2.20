@@ -5067,12 +5067,6 @@ static int	cfg80211_rtw_set_channel(struct wiphy *wiphy
 		chan_offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
 		break;
 	}
-
-	RTW_INFO(FUNC_ADPT_FMT" ch:%d bw:%d, offset:%d\n"
-		, FUNC_ADPT_ARG(padapter), chan_target, chan_width, chan_offset);
-	if(true){
-		FUNC_ADPT_ARG(padapter), chan_target, chan_width, chan_offset);
-	}
 	rtw_set_chbw_cmd(padapter, chan_target, chan_width, chan_offset, RTW_CMDF_WAIT_ACK);
 
 	return 0;

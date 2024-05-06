@@ -1785,17 +1785,16 @@ addkey_end:
 
 }
 
-static int cfg80211_rtw_get_key(struct wiphy *wiphy, struct net_device *ndev,
+static int cfg80211_rtw_get_key(struct wiphy *wiphy, struct net_device *ndev
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 1, 0))
-        int link_id,u8 keyid
+	, int link_id
 #endif
-#if (CFG80211_API_LEVEL >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
-	u8 key_index, bool pairwise, const u8 *mac_addr,
-#else	/* (CFG80211_API_LEVEL >= KERNEL_VERSION(2, 6, 37)) */
-	u8 key_index, const u8 *mac_addr,
-#endif /* (CFG80211_API_LEVEL >= KERNEL_VERSION(2, 6, 37)) */
-	void *cookie,
-	void (*callback)(void *cookie, struct key_params *))
+	, u8 keyid
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 37)) || defined(COMPAT_KERNEL_RELEASE)
+	, bool pairwise
+#endif
+	, const u8 *mac_addr, void *cookie
+	, void (*callback)(void *cookie, struct key_params *))
 {
 #if 0
 	struct iwm_priv *iwm = ndev_to_iwm(ndev);

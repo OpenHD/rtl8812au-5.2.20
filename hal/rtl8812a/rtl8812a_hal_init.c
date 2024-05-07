@@ -1225,8 +1225,9 @@ Hal_ReadAmplifierType_8812A(
 
 	if ((pHalData->LNAType_5G & (BIT7 | BIT3)) == (BIT7 | BIT3)) /* [5G] Path A and B are both extLNA */
 		pHalData->TypeALNA = extTypeLNA_5G_B << 2 | extTypeLNA_5G_A;
+		
 	//OpenHD fix to PA always enabled
-	pHalData->TypeAPA  = extTypePA_5G_B  << 2 | extTypePA_5G_A;
+	pHalData->TypeAPA = 1;
 	RTW_INFO("pHalData->TypeGPA = 0x%X\n", pHalData->TypeGPA);
 	RTW_INFO("pHalData->TypeAPA = 0x%X\n", pHalData->TypeAPA);
 	RTW_INFO("pHalData->TypeGLNA = 0x%X\n", pHalData->TypeGLNA);

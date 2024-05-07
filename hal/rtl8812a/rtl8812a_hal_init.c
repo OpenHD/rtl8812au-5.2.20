@@ -1206,10 +1206,10 @@ Hal_ReadAmplifierType_8812A(
 	RTW_WARN("OpenHD READ!!!RegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
-	u8 extTypePA_2G_A  = 0;
-	u8 extTypePA_2G_B  = 0;
-	u8 extTypePA_5G_A  = 1;
-	u8 extTypePA_5G_B  = 1;
+	u8 extTypePA_2G_A  = (PROMContent[0xBD] & BIT2)      >> 2; /* 0xBD[2] */
+	u8 extTypePA_2G_B  = (PROMContent[0xBD] & BIT6)      >> 6; /* 0xBD[6] */
+	u8 extTypePA_5G_A  = (PROMContent[0xBF] & BIT2)      >> 2; /* 0xBF[2] */
+	u8 extTypePA_5G_B  = (PROMContent[0xBF] & BIT6)      >> 6; /* 0xBF[6] */
 	u8 extTypeLNA_2G_A = (PROMContent[0xBD] & (BIT1 | BIT0)) >> 0; /* 0xBD[1:0] */
 	u8 extTypeLNA_2G_B = (PROMContent[0xBD] & (BIT5 | BIT4)) >> 4; /* 0xBD[5:4] */
 	u8 extTypeLNA_5G_A = (PROMContent[0xBF] & (BIT1 | BIT0)) >> 0; /* 0xBF[1:0] */
@@ -1220,15 +1220,13 @@ Hal_ReadAmplifierType_8812A(
 	if ((pHalData->PAType_2G & (BIT5 | BIT4)) == (BIT5 | BIT4)) /* [2.4G] Path A and B are both extPA */
 		pHalData->TypeGPA  = extTypePA_2G_B  << 2 | extTypePA_2G_A;
 
-	if ((pHalData->PAType_5G & (BIT1 | BIT0)) == (BIT1 | BIT0)) /* [5G] Path A and B are both extPA */
-		pHalData->TypeAPA  = extTypePA_5G_B  << 2 | extTypePA_5G_A;
-
 	if ((pHalData->LNAType_2G & (BIT7 | BIT3)) == (BIT7 | BIT3)) /* [2.4G] Path A and B are both extLNA */
 		pHalData->TypeGLNA = extTypeLNA_2G_B << 2 | extTypeLNA_2G_A;
 
 	if ((pHalData->LNAType_5G & (BIT7 | BIT3)) == (BIT7 | BIT3)) /* [5G] Path A and B are both extLNA */
 		pHalData->TypeALNA = extTypeLNA_5G_B << 2 | extTypeLNA_5G_A;
-
+	//OpenHD fix to PA always enabled
+	pHalData->TypeAPA  = extTypePA_5G_B  << 2 | extTypePA_5G_A;
 	RTW_INFO("pHalData->TypeGPA = 0x%X\n", pHalData->TypeGPA);
 	RTW_INFO("pHalData->TypeAPA = 0x%X\n", pHalData->TypeAPA);
 	RTW_INFO("pHalData->TypeGLNA = 0x%X\n", pHalData->TypeGLNA);

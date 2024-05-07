@@ -1133,7 +1133,7 @@ hal_ReadPAType_8812A(
 	
 	RTW_WARN("OpenHD warning: Detecting PA !(%u)\n", AutoloadFail);
 	if (!AutoloadFail) {
-		RTW_WARN("Autoload Fail !(%u)\n", AutoloadFail);
+		RTW_WARN("Autoload Fail 2G !(%u)\n", AutoloadFail);
 		if (GetRegAmplifierType2G(Adapter) == 0) { /* AUTO */
 			pHalData->PAType_2G = ReadLE1Byte(&PROMContent[EEPROM_PA_TYPE_8812AU]);
 			pHalData->LNAType_2G = ReadLE1Byte(&PROMContent[EEPROM_LNA_TYPE_2G_8812AU]);
@@ -1150,18 +1150,22 @@ hal_ReadPAType_8812A(
 		}
 
 		if (GetRegAmplifierType5G(Adapter) == 0) { /* AUTO */
-			pHalData->PAType_5G = ReadLE1Byte(&PROMContent[EEPROM_PA_TYPE_8812AU]);
-			pHalData->LNAType_5G = ReadLE1Byte(&PROMContent[EEPROM_LNA_TYPE_5G_8812AU]);
-			if (pHalData->PAType_5G == 0xFF)
-				pHalData->PAType_5G = 1;
-			if (pHalData->LNAType_5G == 0xFF)
-				pHalData->LNAType_5G = 0;
+				RTW_WARN("Autoload Fail 5G !(%u)\n", AutoloadFail);
+			// pHalData->PAType_5G = ReadLE1Byte(&PROMContent[EEPROM_PA_TYPE_8812AU]);
+			// pHalData->LNAType_5G = ReadLE1Byte(&PROMContent[EEPROM_LNA_TYPE_5G_8812AU]);
+			// if (pHalData->PAType_5G == 0xFF)
+			// pHalData->PAType_5G = 1;	
+			// if (pHalData->LNAType_5G == 0xFF)
+			// 	pHalData->LNAType_5G = 0;
+			pHalData->PAType_5G = 1;
 
-			pHalData->external_pa_5g = ((pHalData->PAType_5G & BIT1) && (pHalData->PAType_5G & BIT0)) ? 1 : 0;
-			pHalData->external_lna_5g = ((pHalData->LNAType_5G & BIT7) && (pHalData->LNAType_5G & BIT3)) ? 1 : 0;
+			// pHalData->external_pa_5g = ((pHalData->PAType_5G & BIT1) && (pHalData->PAType_5G & BIT0)) ? 1 : 0;
+			// pHalData->external_lna_5g = ((pHalData->LNAType_5G & BIT7) && (pHalData->LNAType_5G & BIT3)) ? 1 : 0;
 		} else {
-			pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
-			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
+			RTW_WARN("Autoload Worked 5G !(%u)\n", AutoloadFail);
+			// pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
+			// pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
+			pHalData->PAType_5G = 1;
 		}
 	} else {
 		pHalData->ExternalPA_2G  = EEPROM_Default_PAType;
@@ -1177,9 +1181,11 @@ hal_ReadPAType_8812A(
 			pHalData->ExternalLNA_2G = (GetRegAmplifierType2G(Adapter) & ODM_BOARD_EXT_LNA) ? 1 : 0;
 		}
 		if (GetRegAmplifierType5G(Adapter) == 0) { /* AUTO */
+			RTW_WARN("OpenHD GetRegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
 			pHalData->external_pa_5g  = 0;
 			pHalData->external_lna_5g = 0;
 		} else {
+			RTW_WARN("OpenHD NoGetRegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
 			pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
 			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
 		}
@@ -1197,6 +1203,7 @@ Hal_ReadAmplifierType_8812A(
 	IN	BOOLEAN		AutoloadFail
 )
 {
+	RTW_WARN("OpenHD READ!!!RegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
 	u8 extTypePA_2G_A  = (PROMContent[0xBD] & BIT2)      >> 2; /* 0xBD[2] */

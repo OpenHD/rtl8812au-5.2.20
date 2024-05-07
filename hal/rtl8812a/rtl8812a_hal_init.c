@@ -1182,7 +1182,7 @@ hal_ReadPAType_8812A(
 		}
 		if (GetRegAmplifierType5G(Adapter) == 0) { /* AUTO */
 			RTW_WARN("OpenHD GetRegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
-			pHalData->external_pa_5g  = 0;
+			pHalData->external_pa_5g  = 1;
 			pHalData->external_lna_5g = 0;
 		} else {
 			RTW_WARN("OpenHD NoGetRegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
@@ -1206,10 +1206,10 @@ Hal_ReadAmplifierType_8812A(
 	RTW_WARN("OpenHD READ!!!RegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
 	HAL_DATA_TYPE	*pHalData = GET_HAL_DATA(Adapter);
 
-	u8 extTypePA_2G_A  = (PROMContent[0xBD] & BIT2)      >> 2; /* 0xBD[2] */
-	u8 extTypePA_2G_B  = (PROMContent[0xBD] & BIT6)      >> 6; /* 0xBD[6] */
-	u8 extTypePA_5G_A  = (PROMContent[0xBF] & BIT2)      >> 2; /* 0xBF[2] */
-	u8 extTypePA_5G_B  = (PROMContent[0xBF] & BIT6)      >> 6; /* 0xBF[6] */
+	u8 extTypePA_2G_A  = 0
+	u8 extTypePA_2G_B  = 0
+	u8 extTypePA_5G_A  = 1
+	u8 extTypePA_5G_B  = 1
 	u8 extTypeLNA_2G_A = (PROMContent[0xBD] & (BIT1 | BIT0)) >> 0; /* 0xBD[1:0] */
 	u8 extTypeLNA_2G_B = (PROMContent[0xBD] & (BIT5 | BIT4)) >> 4; /* 0xBD[5:4] */
 	u8 extTypeLNA_5G_A = (PROMContent[0xBF] & (BIT1 | BIT0)) >> 0; /* 0xBF[1:0] */

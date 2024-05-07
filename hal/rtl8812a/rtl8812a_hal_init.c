@@ -1294,6 +1294,8 @@ Hal_ReadPAType_8821A(
 			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
 		}
 	}
+	//OpenHD fix to PA always enabled
+	pHalData->PAType_5G = 1;
 	RTW_INFO("pHalData->PAType_2G is 0x%x, pHalData->ExternalPA_2G = %d\n", pHalData->PAType_2G, pHalData->ExternalPA_2G);
 	RTW_INFO("pHalData->PAType_5G is 0x%x, pHalData->external_pa_5g = %d\n", pHalData->PAType_5G, pHalData->external_pa_5g);
 	RTW_INFO("pHalData->LNAType_2G is 0x%x, pHalData->ExternalLNA_2G = %d\n", pHalData->LNAType_2G, pHalData->ExternalLNA_2G);

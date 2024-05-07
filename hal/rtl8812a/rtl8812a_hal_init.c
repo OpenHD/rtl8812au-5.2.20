@@ -1163,7 +1163,7 @@ hal_ReadPAType_8812A(
 		}
 	} else {
 		pHalData->ExternalPA_2G  = EEPROM_Default_PAType;
-		pHalData->external_pa_5g  = 0xFF;
+		pHalData->external_pa_5g  = 0x3;
 		pHalData->ExternalLNA_2G = EEPROM_Default_LNAType;
 		pHalData->external_lna_5g = 0xFF;
 

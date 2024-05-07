@@ -1128,13 +1128,13 @@ hal_ReadPAType_8812A(
 	IN	u8			*PROMContent,
 	IN	BOOLEAN		AutoloadFail
 
-RTW_WARN("OpenHD warning: Detecting PA !");
+RTW_WARN("OpenHD warning: Detecting PA !(%u)\n", AutoloadFail);
 )
 {
 	HAL_DATA_TYPE		*pHalData = GET_HAL_DATA(Adapter);
 
 	if (!AutoloadFail) {
-		RTW_WARN("OpenHD warning: Autoload failed !");
+		RTW_WARN("Autoload Fail !(%u)\n", AutoloadFail);
 		if (GetRegAmplifierType2G(Adapter) == 0) { /* AUTO */
 			pHalData->PAType_2G = ReadLE1Byte(&PROMContent[EEPROM_PA_TYPE_8812AU]);
 			pHalData->LNAType_2G = ReadLE1Byte(&PROMContent[EEPROM_LNA_TYPE_2G_8812AU]);

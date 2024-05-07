@@ -1159,17 +1159,17 @@ hal_ReadPAType_8812A(
 			// 	pHalData->LNAType_5G = 0;
 			pHalData->PAType_5G = 1;
 
-			// pHalData->external_pa_5g = ((pHalData->PAType_5G & BIT1) && (pHalData->PAType_5G & BIT0)) ? 1 : 0;
+			pHalData->external_pa_5g = 1;
 			// pHalData->external_lna_5g = ((pHalData->LNAType_5G & BIT7) && (pHalData->LNAType_5G & BIT3)) ? 1 : 0;
 		} else {
 			RTW_WARN("Autoload Worked 5G !(%u)\n", AutoloadFail);
-			// pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
+			pHalData->external_pa_5g = 1;
 			// pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
 			pHalData->PAType_5G = 1;
 		}
 	} else {
 		pHalData->ExternalPA_2G  = EEPROM_Default_PAType;
-		pHalData->external_pa_5g  = 0x3;
+		pHalData->external_pa_5g = 1;
 		pHalData->ExternalLNA_2G = EEPROM_Default_LNAType;
 		pHalData->external_lna_5g = 0xFF;
 
@@ -1186,10 +1186,11 @@ hal_ReadPAType_8812A(
 			pHalData->external_lna_5g = 0;
 		} else {
 			RTW_WARN("OpenHD NoGetRegAmplifier !!!!!!!!!!!!!!!!!!(%u)\n", AutoloadFail);
-			pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
+			pHalData->external_pa_5g = 1;
 			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
 		}
 	}
+	pHalData->external_pa_5g = 1;
 	RTW_INFO("pHalData->PAType_2G is 0x%x, pHalData->ExternalPA_2G = %d\n", pHalData->PAType_2G, pHalData->ExternalPA_2G);
 	RTW_INFO("pHalData->PAType_5G is 0x%x, pHalData->external_pa_5g = %d\n", pHalData->PAType_5G, pHalData->external_pa_5g);
 	RTW_INFO("pHalData->LNAType_2G is 0x%x, pHalData->ExternalLNA_2G = %d\n", pHalData->LNAType_2G, pHalData->ExternalLNA_2G);
@@ -1267,15 +1268,15 @@ Hal_ReadPAType_8821A(
 			if (pHalData->LNAType_5G == 0xFF)
 				pHalData->LNAType_5G = 0;
 
-			pHalData->external_pa_5g = (pHalData->PAType_5G & BIT0) ? 1 : 0;
+			pHalData->external_pa_5g = 1;
 			pHalData->external_lna_5g = (pHalData->LNAType_5G & BIT3) ? 1 : 0;
 		} else {
-			pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
+			pHalData->external_pa_5g = 1;
 			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
 		}
 	} else {
 		pHalData->ExternalPA_2G  = EEPROM_Default_PAType;
-		pHalData->external_pa_5g  = 0xFF;
+		pHalData->external_pa_5g = 1;
 		pHalData->ExternalLNA_2G = EEPROM_Default_LNAType;
 		pHalData->external_lna_5g = 0xFF;
 
@@ -1287,15 +1288,16 @@ Hal_ReadPAType_8821A(
 			pHalData->ExternalLNA_2G = (GetRegAmplifierType2G(Adapter) & ODM_BOARD_EXT_LNA) ? 1 : 0;
 		}
 		if (GetRegAmplifierType5G(Adapter) == 0) { /* AUTO */
-			pHalData->external_pa_5g  = 0;
+			pHalData->external_pa_5g = 1;
 			pHalData->external_lna_5g = 0;
 		} else {
-			pHalData->external_pa_5g  = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_PA_5G)  ? 1 : 0;
+			pHalData->external_pa_5g = 1;
 			pHalData->external_lna_5g = (GetRegAmplifierType5G(Adapter) & ODM_BOARD_EXT_LNA_5G) ? 1 : 0;
 		}
 	}
 	//OpenHD fix to PA always enabled
 	pHalData->PAType_5G = 1;
+	pHalData->external_pa_5g =1;
 	RTW_INFO("pHalData->PAType_2G is 0x%x, pHalData->ExternalPA_2G = %d\n", pHalData->PAType_2G, pHalData->ExternalPA_2G);
 	RTW_INFO("pHalData->PAType_5G is 0x%x, pHalData->external_pa_5g = %d\n", pHalData->PAType_5G, pHalData->external_pa_5g);
 	RTW_INFO("pHalData->LNAType_2G is 0x%x, pHalData->ExternalLNA_2G = %d\n", pHalData->LNAType_2G, pHalData->ExternalLNA_2G);

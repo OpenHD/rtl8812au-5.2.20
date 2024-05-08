@@ -25,7 +25,7 @@ if [[ -e /etc/os-release && $(grep -c "Raspbian" /etc/os-release) -gt 0 ]]; then
     echo "---------------"
     echo "_____________________________________________"
     ls -a /usr/src/
-elif [[ -e /etc/os-release && $(grep -c "Ubuntu Noble" /etc/os-release) -gt 0 ]]; then 
+elif [[ "$(lsb_release -cs)" == "noble" ]]; then 
     echo "building for the ubuntu noble minimal"
     sudo apt update 
     sudo apt install -y build-essential flex bc bison dkms

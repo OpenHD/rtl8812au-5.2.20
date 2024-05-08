@@ -30,6 +30,7 @@ elif [[ "$(lsb_release -cs)" == "noble" ]]; then
     sudo apt update 
     sudo apt install -y build-essential flex bc bison dkms
     sudo apt install -y python3-pip
+    sudo apt remove -y python3-urllib3
     sudo pip install cloudsmith-api --break-system-packages
     sudo pip install cloudsmith-cli --break-system-packages
     make KSRC=/usr/src/linux-headers-6.8.0-31-generic O="" modules

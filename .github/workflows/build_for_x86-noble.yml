@@ -45,7 +45,7 @@ jobs:
           sudo bash ./build.sh x86-minimal $API_KEY ubuntu noble
       
       - name: debug
-        run:
+        run: |
           ls -a
           cp -r /opt/OpenHD-ChrootCompiler/out/*.deb .
 

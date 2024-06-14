@@ -41,9 +41,9 @@ jobs:
 
           cd /opt/OpenHD-ChrootCompiler/
           sudo apt update
-          apt install -y python3-pip
-          pip install cloudsmith-api --break-system-packages
-          pip install cloudsmith-cli --break-system-packages
+          sudo apt install -y python3-pip
+          sudo pip install cloudsmith-api --break-system-packages
+          sudo pip install cloudsmith-cli --break-system-packages
           sudo bash install_dep.sh
           sudo bash ./build.sh x86-minimal $API_KEY ubuntu noble
       

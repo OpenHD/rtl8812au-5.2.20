@@ -53,7 +53,7 @@ jobs:
       - name: Upload to Github
         uses: 'actions/upload-artifact@v2'
         with:
-          name: "OpenHD"
+          name: "rtl8812au"
           path: |
             *.deb
             *.log
@@ -61,7 +61,6 @@ jobs:
 
       - name: Push
         id: push
-        if: github.ref_name == 'release' || github.ref_name == 'dev-release'
         uses: cloudsmith-io/action@master
         with:
           api-key: ${{ secrets.CLOUDSMITH_API_KEY }}

@@ -38,7 +38,9 @@ elif [[ "$(lsb_release -cs)" == "noble" ]]; then
     echo "push to cloudsmith"
     git describe --exact-match HEAD >/dev/null 2>&1
     echo "Pushing the package to OpenHD 2.5 repository"
-    cloudsmith push deb --api-key "$API_KEY" openhd/release/ubuntu/noble rtl8812au-x86.deb || exit 1
+    # cloudsmith push deb --api-key "$API_KEY" openhd/release/ubuntu/noble rtl8812au-x86.deb || exit 1
+    cp *.deb /out/
+    echo "copied deb file"
     echo "---------------"
     echo "_____________________________________________"
 else

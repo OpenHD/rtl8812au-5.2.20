@@ -41,16 +41,13 @@ jobs:
 
           cd /opt/OpenHD-ChrootCompiler/
           sudo apt update
-          sudo apt install -y python3-pip
-          sudo pip install cloudsmith-api
-          sudo pip install cloudsmith-cli
           sudo bash install_dep.sh
           sudo bash ./build.sh x86-minimal $API_KEY ubuntu noble
       
       - name: debug
         run:
-          ls -a *
-          cp -r /opt/OpenHD-ChrootCompiler/out/* .
+          ls -a
+          cp -r /opt/OpenHD-ChrootCompiler/out/*.deb .
 
       
       - name: Upload to Github

@@ -105,6 +105,7 @@ CONFIG_RTW_DEBUG = y
 CONFIG_RTW_LOG_LEVEL = 7 #Consti10 3==DRV_WARNING
 ######################## X20 ONLY #############################
 CONFIG_LOAD_PHY_PARA_FROM_FILE = y
+EXTRA_CFLAGS += -DREALTEK_CONFIG_PATH=\"/lib/firmware/\"
 
 ######################## Wake On Lan ##########################
 CONFIG_WOWLAN = n

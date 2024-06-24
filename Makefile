@@ -305,7 +305,7 @@ _BTC_FILES += hal/btc/halbtc8192e1ant.o \
 endif
 
 ifeq ($(CONFIG_PLATFORM_ARM64_RPI), y)
-include $(TopDIR)/../../drivers/net/wireless/realtek/rtl8812au/hal/phydm/phydm.mk
+include /home/runner/work/duo-buildroot-sdk-v2/duo-buildroot-sdk-v2/linux_5.10/drivers/net/wireless/realtek/rtl8812au/hal/phydm/phydm.mk
 endif
 
 ########### HAL_RTL8812A_RTL8821A #################################

@@ -4,6 +4,7 @@
 
 mkdir -p /out
 sudo apt install -y python3-pip ruby ruby-dev rubygems build-essential
+pip3 install --upgrade pip
 gem install fpm
 sudo pip3 install --upgrade cloudsmith-cli --break-system-packages
 ls -a
@@ -47,7 +48,6 @@ elif [[ "$(lsb_release -cs)" == "noble" ]]; then
 else
 ls -a /usr/src/
 
-sudo apt update 
 sudo apt install -y build-essential flex bc bison dkms
 make KSRC=/usr/src/linux-headers-6.3.13-060313-generic O="" modules
 mkdir -p package/lib/modules/6.3.13-060313-generic/kernel/drivers/net/wireless/
